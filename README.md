@@ -67,5 +67,7 @@ I have uploaded all the screenshots related to this project in the folder named 
 **Future Enhancements**
 
 Automating the infrastructure deployment using Terraform.
+
 Implementing CloudWatch for monitoring and alerts.
+
 Integrating CI/CD pipelines to automate application deployment.
