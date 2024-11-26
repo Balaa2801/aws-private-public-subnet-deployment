@@ -1,73 +1,99 @@
-# aws-private-public-subnet-deployment
-****AWS Private and Public Subnet Application Deployment**
+# AWS Private and Public Subnet Application Deployment
 
-**Project Overview**
+## Project Overview
 
-This project demonstrates how to deploy a simple web application on AWS by creating a VPC with both private and public subnets. It walks through configuring EC2 instances in private subnets, using a Bastion host for secure access, and deploying an application behind a Load Balancer to ensure traffic is distributed across two EC2 instances.
+This project demonstrates the deployment of a simple web application on AWS by creating a VPC with both private and public subnets. It includes configuring EC2 instances in private subnets, using a Bastion host for secure access, and deploying the application behind a Load Balancer to ensure traffic distribution across two EC2 instances.
 
-**Architecture**
+---
 
-VPC with Public and Private Subnets: The VPC includes both private subnets for application instances and public subnets for NAT and Bastion hosts.
-Auto Scaling Group: Automatically adjusts the number of instances based on demand.
-Bastion Host: Provides SSH access to the private EC2 instances.
-Load Balancer: Distributes incoming HTTP traffic across the EC2 instances.
-EC2 Instances: Hosts the web application.
+## Architecture
 
-**Steps Taken**
+1. **VPC with Public and Private Subnets**:  
+   - The VPC includes private subnets for application instances and public subnets for NAT and Bastion hosts.
 
-**Create a VPC**
+2. **Auto Scaling Group**:  
+   - Automatically adjusts the number of instances based on demand.
 
-First, created a new VPC to host both private and public subnets. This also included setting up the necessary internet and NAT gateways for secure communication.
+3. **Bastion Host**:  
+   - Provides SSH access to the private EC2 instances.
 
-**Launch EC2 Instances in Private Subnets**
+4. **Load Balancer**:  
+   - Distributes incoming HTTP traffic across the EC2 instances.
 
-Created two EC2 instances within private subnets using an Auto Scaling Group and a Launch Template.
-The instances will be automatically scaled based on load.
+5. **EC2 Instances**:  
+   - Hosts the web application.
 
-**Set Up Bastion Host**
+---
 
-Created a Bastion host in a public subnet to allow SSH access to private instances.
-Transferred the key pair from my local machine to the Bastion host using scp command.
+## Steps Taken
 
-**SSH into Private Instances**
+### 1. Create a VPC
+- Created a new VPC to host both private and public subnets.  
+- Set up the necessary Internet and NAT Gateways for secure communication.
 
-Used the Bastion host to SSH into the private EC2 instances via their private IPs.
-Created a simple index.html on the private instances and hosted it using Python’s HTTP server:
-bash
-Copy code
-python3 -m http.server 8000
+### 2. Launch EC2 Instances in Private Subnets
+- Created two EC2 instances within private subnets using an Auto Scaling Group and a Launch Template.
+- Instances automatically scale based on load.
 
-**Set Up Load Balancer**
-Created a target group for the Load Balancer to manage HTTP traffic distribution.
-Configured the Load Balancer to distribute traffic between the EC2 instances.
-Updated the Security Group to allow HTTP traffic on port 80 to the Load Balancer.
+### 3. Set Up Bastion Host
+- Created a Bastion host in a public subnet to allow SSH access to private instances.  
+- Transferred the key pair from the local machine to the Bastion host using the `scp` command.
 
-**Update Security Group Rules**
+### 4. SSH into Private Instances
+- Used the Bastion host to SSH into private EC2 instances via their private IPs.  
+- Created a simple `index.html` on the private instances and hosted it using Python’s HTTP server:  
+  ```bash
+  python3 -m http.server 8000
 
-Initially, the Load Balancer did not allow HTTP traffic on port 80. After modifying the security group to allow HTTP traffic, the setup was functional.
+### 5. Set Up Load Balancer
 
-**Test the Application**
+- Created a Target Group for the Load Balancer to manage HTTP traffic distribution.
+- Configured the Load Balancer to distribute traffic between EC2 instances.
+- Updated the Security Group to allow HTTP traffic on port 80 to the Load Balancer.
 
-The Load Balancer's DNS link was copied and pasted into the browser, where the index.html page hosted on the EC2 instances was successfully accessed.
+---
 
-Configured the second EC2 instance in a similar manner, changing the index.html content to differentiate the projects.
+### 6. Update Security Group Rules
 
-**Load Balancer Traffic Distribution**
+- Initially, the Load Balancer did not allow HTTP traffic on port 80.
+- Modified the Security Group to allow HTTP traffic, making the setup functional.
 
-Once both instances were running, the Load Balancer successfully distributed traffic between them, demonstrating high availability.
+---
 
-**Conclusion**
+### 7. Test the Application
 
-This project demonstrates deploying a simple web application in AWS using private and public subnets with Auto Scaling, a Bastion host for secure access, and a Load Balancer for traffic distribution.
+- Copied the Load Balancer's DNS link and accessed it in a browser.
+- Verified that the `index.html` page hosted on the EC2 instances was accessible.
 
-**Screenshots**
+---
 
-I have uploaded all the screenshots related to this project in the folder named "Aws-Project-Screenshots." Please refer to this folder for visual aids and additional details of the steps mentioned above.
+### 8. Configure the Second EC2 Instance
 
-**Future Enhancements**
+- Updated the `index.html` content on the second EC2 instance to differentiate the projects.
+- Verified that the Load Balancer successfully distributed traffic between both instances.
 
-Automating the infrastructure deployment using Terraform.
+---
 
-Implementing CloudWatch for monitoring and alerts.
+## Conclusion
 
-Integrating CI/CD pipelines to automate application deployment.
+This project demonstrates the deployment of a simple web application in AWS using:
+
+- Private and public subnets
+- Auto Scaling
+- A Bastion host for secure access
+- A Load Balancer for traffic distribution
+
+---
+
+## Screenshots
+
+All project-related screenshots are available in the folder named **"AWS-Project-Screenshots"**.  
+Please refer to this folder for visual aids and additional details of the steps mentioned above.
+
+---
+
+## Future Enhancements
+
+1. Automating the infrastructure deployment using Terraform.
+2. Implementing CloudWatch for monitoring and alerts.
+3. Integrating CI/CD pipelines to automate application deployment.
